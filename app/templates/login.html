@@ -1,183 +1,188 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --error-color: #f72585;
-            --success-color: #4cc9f0;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --border-color: #ddd;
         }
         
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-gray);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: var(--dark-color);
+            color: var(--dark-gray);
+            line-height: 1.6;
         }
         
         .login-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            transition: all 0.3s ease;
+            max-width: 400px;
+            padding: 2.5rem;
+            margin: 1rem;
         }
         
         .login-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
         }
         
         .login-header h2 {
             color: var(--primary-color);
-            font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
         
         .login-header p {
-            color: #6c757d;
+            color: #666;
+            font-size: 0.9rem;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
             position: relative;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #495057;
+            color: #555;
         }
         
         .form-control {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-size: 16px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
         
         .form-control:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         
-        .password-container {
+        .password-wrapper {
             position: relative;
         }
         
         .toggle-password {
             position: absolute;
-            right: 15px;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: #adb5bd;
+            color: #999;
         }
         
         .btn {
             width: 100%;
-            padding: 12px;
+            padding: 0.75rem;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
         
         .btn:hover {
             background-color: var(--secondary-color);
         }
         
+        .btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
         .alert {
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-size: 14px;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
+            font-size: 0.9rem;
         }
         
         .alert-error {
-            background-color: rgba(247, 37, 133, 0.1);
+            background-color: rgba(231, 76, 60, 0.1);
             color: var(--error-color);
             border-left: 4px solid var(--error-color);
         }
         
         .alert-success {
-            background-color: rgba(76, 201, 240, 0.1);
+            background-color: rgba(46, 204, 113, 0.1);
             color: var(--success-color);
             border-left: 4px solid var(--success-color);
         }
         
         .alert i {
-            margin-right: 10px;
-            font-size: 18px;
+            margin-right: 0.5rem;
         }
         
-        .forgot-password {
+        .forgot-link {
+            display: block;
             text-align: right;
-            margin-top: -10px;
-            margin-bottom: 20px;
-        }
-        
-        .forgot-password a {
-            color: #6c757d;
+            margin-top: -0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
             text-decoration: none;
-            font-size: 14px;
             transition: color 0.3s ease;
         }
         
-        .forgot-password a:hover {
+        .forgot-link:hover {
             color: var(--primary-color);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
         }
         
         .input-error {
             border-color: var(--error-color) !important;
         }
         
-        .error-message {
-            color: var(--error-color);
-            font-size: 13px;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .login-footer {
+        .footer {
             text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #6c757d;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #777;
         }
         
-        @media (max-width: 576px) {
+        @media (max-width: 480px) {
             .login-container {
-                padding: 30px 20px;
-                margin: 0 15px;
+                padding: 1.5rem;
             }
         }
     </style>
@@ -186,7 +191,7 @@
     <div class="login-container">
         <div class="login-header">
             <h2>Admin Login</h2>
-            <p>Enter your credentials to access the admin panel</p>
+            <p>Please enter your credentials to continue</p>
         </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -203,121 +208,123 @@
             
             <div class="form-group">
                 {{ form.username.label }}
-                {{ form.username(class="form-control", id="username", placeholder="Enter your username") }}
-                <div class="error-message" id="username-error"></div>
+                {{ form.username(class="form-control", id="username", placeholder="Enter username") }}
+                <div class="error-message" id="username-error">Username is required</div>
             </div>
             
             <div class="form-group">
                 {{ form.password.label }}
-                <div class="password-container">
-                    {{ form.password(class="form-control", id="password", placeholder="Enter your password") }}
-                    <i class="far fa-eye toggle-password" id="togglePassword"></i>
+                <div class="password-wrapper">
+                    {{ form.password(class="form-control", id="password", placeholder="Enter password") }}
+                    <i class="fas fa-eye-slash toggle-password" id="togglePassword"></i>
                 </div>
-                <div class="error-message" id="password-error"></div>
+                <div class="error-message" id="password-error">Password is required</div>
             </div>
             
-            <div class="forgot-password">
-                <a href="#">Forgot password?</a>
-            </div>
+            <a href="#" class="forgot-link">Forgot password?</a>
             
             {{ form.submit(class="btn", id="submitBtn") }}
         </form>
         
-        <div class="login-footer">
-            <p>© JU. All rights reserved.</p>
-        </div>
+       
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Password visibility toggle
+            // Toggle password visibility
             const togglePassword = document.getElementById('togglePassword');
-            const password = document.getElementById('password');
+            const passwordInput = document.getElementById('password');
             
             togglePassword.addEventListener('click', function() {
-                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                password.setAttribute('type', type);
-                this.classList.toggle('fa-eye-slash');
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
                 this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
             });
             
             // Form validation
             const form = document.getElementById('loginForm');
-            const username = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const usernameError = document.getElementById('username-error');
-            const passwordError = document.getElementById('password-error');
+            const usernameInput = document.getElementById('username');
             const submitBtn = document.getElementById('submitBtn');
             
+            // Validate on submit
             form.addEventListener('submit', function(e) {
                 let isValid = true;
                 
                 // Validate username
-                if (username.value.trim() === '') {
-                    username.classList.add('input-error');
-                    usernameError.textContent = 'Username is required';
-                    usernameError.style.display = 'block';
+                if (!usernameInput.value.trim()) {
+                    showError(usernameInput, 'username-error', 'Username is required');
                     isValid = false;
-                } else {
-                    username.classList.remove('input-error');
-                    usernameError.style.display = 'none';
                 }
                 
                 // Validate password
-                if (passwordInput.value.trim() === '') {
-                    passwordInput.classList.add('input-error');
-                    passwordError.textContent = 'Password is required';
-                    passwordError.style.display = 'block';
+                if (!passwordInput.value.trim()) {
+                    showError(passwordInput, 'password-error', 'Password is required');
                     isValid = false;
                 } else if (passwordInput.value.length < 6) {
-                    passwordInput.classList.add('input-error');
-                    passwordError.textContent = 'Password must be at least 6 characters';
-                    passwordError.style.display = 'block';
+                    showError(passwordInput, 'password-error', 'Password must be at least 6 characters');
                     isValid = false;
-                } else {
-                    passwordInput.classList.remove('input-error');
-                    passwordError.style.display = 'none';
                 }
                 
                 if (!isValid) {
                     e.preventDefault();
-                    
-                    // Shake animation for invalid form
-                    form.classList.add('shake');
-                    setTimeout(() => {
-                        form.classList.remove('shake');
-                    }, 500);
+                    addShakeAnimation();
+                } else {
+                    // Show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
                 }
             });
             
-            // Input field validation on blur
-            username.addEventListener('blur', function() {
-                if (this.value.trim() === '') {
-                    this.classList.add('input-error');
-                    usernameError.textContent = 'Username is required';
-                    usernameError.style.display = 'block';
+            // Validate on blur
+            usernameInput.addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    showError(this, 'username-error', 'Username is required');
                 } else {
-                    this.classList.remove('input-error');
-                    usernameError.style.display = 'none';
+                    hideError(this, 'username-error');
                 }
             });
             
             passwordInput.addEventListener('blur', function() {
-                if (this.value.trim() === '') {
-                    this.classList.add('input-error');
-                    passwordError.textContent = 'Password is required';
-                    passwordError.style.display = 'block';
+                if (!this.value.trim()) {
+                    showError(this, 'password-error', 'Password is required');
                 } else if (this.value.length < 6) {
-                    this.classList.add('input-error');
-                    passwordError.textContent = 'Password must be at least 6 characters';
-                    passwordError.style.display = 'block';
+                    showError(this, 'password-error', 'Password must be at least 6 characters');
                 } else {
-                    this.classList.remove('input-error');
-                    passwordError.style.display = 'none';
+                    hideError(this, 'password-error');
                 }
             });
             
-            // Add shake animation CSS
+            // Clear errors on focus
+            usernameInput.addEventListener('focus', function() {
+                hideError(this, 'username-error');
+            });
+            
+            passwordInput.addEventListener('focus', function() {
+                hideError(this, 'password-error');
+            });
+            
+            // Helper functions
+            function showError(input, errorElementId, message) {
+                input.classList.add('input-error');
+                const errorElement = document.getElementById(errorElementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            function hideError(input, errorElementId) {
+                input.classList.remove('input-error');
+                document.getElementById(errorElementId).style.display = 'none';
+            }
+            
+            function addShakeAnimation() {
+                form.classList.add('shake');
+                setTimeout(() => {
+                    form.classList.remove('shake');
+                }, 500);
+            }
+            
+            // Add shake animation CSS dynamically
             const style = document.createElement('style');
             style.textContent = `
                 .shake {
@@ -330,19 +337,7 @@
                 }
             `;
             document.head.appendChild(style);
-            
-            // Loading state for submit button
-            submitBtn.addEventListener('click', function() {
-                if (form.checkValidity()) {
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
-                    this.disabled = true;
-                }
-            });
         });
     </script>
 </body>
-</html>
-   
-
-
- 
+</html> 
