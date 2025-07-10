@@ -5,7 +5,350 @@
   <h2>Admin Login</h2>
  <form method="POST">
     {{ form.hidden_tag() }}
-    {{ form.username.label }} {{ form.username() }}
+    {{ form.username.label }} {{ form.username() }}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --error-color: #f72585;
+            --success-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h2 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #6c757d;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #adb5bd;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-error {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+        
+        .alert-success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .alert i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password a {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .forgot-password a:hover {
+            color: var(--primary-color);
+        }
+        
+        .input-error {
+            border-color: var(--error-color) !important;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Admin Login</h2>
+            <p>Enter your credentials to access the admin panel</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'error' if category == 'error' else 'success' }}">
+                    <i class="fas fa-{{ 'exclamation-circle' if category == 'error' else 'check-circle' }}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" id="loginForm">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control", id="username", placeholder="Enter your username") }}
+                <div class="error-message" id="username-error"></div>
+            </div>
+            
+            <div class="form-group">
+                {{ form.password.label }}
+                <div class="password-container">
+                    {{ form.password(class="form-control", id="password", placeholder="Enter your password") }}
+                    <i class="far fa-eye toggle-password" id="togglePassword"></i>
+                </div>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+            
+            {{ form.submit(class="btn", id="submitBtn") }}
+        </form>
+        
+        <div class="login-footer">
+            <p>© 2023 Admin Panel. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password visibility toggle
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.classList.toggle('fa-eye-slash');
+                this.classList.toggle('fa-eye');
+            });
+            
+            // Form validation
+            const form = document.getElementById('loginForm');
+            const username = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate username
+                if (username.value.trim() === '') {
+                    username.classList.add('input-error');
+                    usernameError.textContent = 'Username is required';
+                    usernameError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    username.classList.remove('input-error');
+                    usernameError.style.display = 'none';
+                }
+                
+                // Validate password
+                if (passwordInput.value.trim() === '') {
+                    passwordInput.classList.add('input-error');
+                    passwordError.textContent = 'Password is required';
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                } else if (passwordInput.value.length < 6) {
+                    passwordInput.classList.add('input-error');
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    passwordInput.classList.remove('input-error');
+                    passwordError.style.display = 'none';
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    
+                    // Shake animation for invalid form
+                    form.classList.add('shake');
+                    setTimeout(() => {
+                        form.classList.remove('shake');
+                    }, 500);
+                }
+            });
+            
+            // Input field validation on blur
+            username.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.classList.add('input-error');
+                    usernameError.textContent = 'Username is required';
+                    usernameError.style.display = 'block';
+                } else {
+                    this.classList.remove('input-error');
+                    usernameError.style.display = 'none';
+                }
+            });
+            
+            passwordInput.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.classList.add('input-error');
+                    passwordError.textContent = 'Password is required';
+                    passwordError.style.display = 'block';
+                } else if (this.value.length < 6) {
+                    this.classList.add('input-error');
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    passwordError.style.display = 'block';
+                } else {
+                    this.classList.remove('input-error');
+                    passwordError.style.display = 'none';
+                }
+            });
+            
+            // Add shake animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                .shake {
+                    animation: shake 0.5s;
+                }
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Loading state for submit button
+            submitBtn.addEventListener('click', function() {
+                if (form.checkValidity()) {
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+                    this.disabled = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
     {{ form.password.label }} {{ form.password() }}
     {{ form.submit() }}
 </form>
